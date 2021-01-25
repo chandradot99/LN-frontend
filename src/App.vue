@@ -23,15 +23,58 @@ export default {
   body {
     margin: 0;
     height: 100vh;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif !important;
+    background-color: #666666 !important;
   }
   .h-100 {
     height: 100%;
   }
   .ln-content {
-    height: calc(100% - 100px);
+    height: calc(100% - 60px);
+    padding: 30px;
+    max-width: 1200px;
     background-color: #666666;
-    padding: 20px;
+    margin: 0 auto;
+  }
+  .table {
+    width: 100%;
+    .thead-light {
+      tr {
+        th {
+          background-color: #ffffff;
+          text-transform: uppercase;
+          border-top: 1px solid #f2f2f2;
+          border-bottom: 1px solid #f2f2f2;
+          &:focus {
+            outline: none;
+          }
+          &:first-child {
+            padding-left: 60px;
+          }
+        }
+      }
+    }
+    tbody {
+      tr {
+        &:nth-of-type(even) {
+          background-color: rgba(0, 0, 0, 0.02);
+        }
+        td {
+          border-top: 1px solid #f2f2f2;
+          .icon {
+            width: 21px;
+            height: 21px;
+            cursor: pointer;
+          }
+          &:first-child {
+            padding-left: 60px;
+          }
+        }
+      }
+    }
+  }
+  .b-table-sticky-header {
+    max-height: 100% !important;
   }
 </style>
 

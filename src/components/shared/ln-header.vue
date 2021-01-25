@@ -49,6 +49,7 @@ export default {
     .ln-links {
       ul {
         padding-left: 0;
+        margin-bottom: 0;
         li {
           list-style: none;
           display: inline-flex;
