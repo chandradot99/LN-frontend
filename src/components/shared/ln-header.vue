@@ -39,10 +39,10 @@ export default {
 <style lang="scss" scoped>
   .ln-header {
     background-color: #282828;
-    height: 47px;
+    height: 60px;
     display: flex;
     align-items: center;
-    padding: 10px 20px;
+    padding: 0px 20px;
     .ln-logo {
       width: 150px;
     }
