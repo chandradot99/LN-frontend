@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="list-section">
-      <b-table sticky-header :items="users" :fields="fields" head-variant="light">
+      <b-table sticky-header :items="users" :fields="fields" :busy="isBusy" head-variant="light">
         <template #cell(status)="row">
           <div class="status">
             <span class="status-icon" :class="row.item.status"></span>
@@ -47,6 +47,12 @@
             </svg>
           </div>
         </template>
+        <template #table-busy>
+          <div class="text-center text-danger my-2">
+            <b-spinner class="align-middle"></b-spinner>
+            <strong>Loading...</strong>
+          </div>
+        </template>
       </b-table>
     </div>
   </div>
@@ -63,6 +69,9 @@ export default {
     },
     roles: {
       type: Array
+    },
+    isBusy: {
+      type: Boolean
     }
   },
   data() {
@@ -84,9 +93,12 @@ export default {
       this.$emit('edit-user', user)
     },
     deleteUser (user, index) {
+      this.$Progress.start()
+
       let config = { id: user.id }
       UserService.delete(config).then(() => {
         this.$emit('on-delete', index)
+        this.$Progress.finish()
       })
     },
     getRoleName (roleId) {

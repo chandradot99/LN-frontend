@@ -1,5 +1,6 @@
 <template>
   <div class="h-100">
+    <vue-progress-bar></vue-progress-bar>
     <ln-header></ln-header>
     <div class="ln-content">
       <router-view></router-view>

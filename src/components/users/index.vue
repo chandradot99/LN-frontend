@@ -1,6 +1,6 @@
 <template>
   <div class="h-100">
-    <user-list @add-user="addUser" @edit-user="editUser" @on-delete="deleteUserFromList" :users="users" :roles="roles"></user-list>
+    <user-list @add-user="addUser" @edit-user="editUser" @on-delete="deleteUserFromList" :users="users" :roles="roles" :isBusy="isBusy"></user-list>
     <user-modal ref="userModal" @user-created="appendUserToList" @user-updated="updateUserInList" :roles="roles"></user-modal>
   </div>
 </template>
@@ -20,7 +20,8 @@ export default {
   data () {
     return {
       roles: [],
-      users: []
+      users: [],
+      isBusy: false
     }
   },
   methods: {
@@ -42,8 +43,12 @@ export default {
       })
     },
     loadUsers() {
+      this.isBusy = true
+      this.$Progress.start()
       UserService.read().then((users) => {
         this.users = users
+        this.$Progress.finish()
+        this.isBusy = false
       })
     },
     appendUserToList(user) {
@@ -69,6 +74,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="scss">
+  strong {
+    padding-left: 10px;
+  }
 </style>

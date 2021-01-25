@@ -57,16 +57,22 @@ export default {
       this.$refs.userModalRef.hide()
     },
     createUser () {
+      this.$Progress.start()
       UserService.create(this.user).then((user) => {
         this.$emit('user-created', user)
         this.$refs.userModalRef.hide()
+
+        this.$Progress.finish()
       })
     },
     updateUser () {
+      this.$Progress.start()
       let config = { id: this.user.id }
       UserService.update(config, this.user).then((user) => {
         this.$emit('user-updated', user)
         this.$refs.userModalRef.hide()
+
+        this.$Progress.finish()
       })
     }
   }

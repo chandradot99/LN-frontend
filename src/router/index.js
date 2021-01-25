@@ -8,7 +8,7 @@ Vue.use(Router)
 const routes = [
   {
     path: '/',
-    redirectTo: '/users'
+    redirect: '/users'
   },
   {
     path: '/users',
