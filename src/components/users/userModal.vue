@@ -69,6 +69,7 @@ export default {
           > div {
             display: flex;
             justify-content: space-between;
+            color: #6d6d6d;
           }
         }
         .form-group {

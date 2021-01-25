@@ -26,7 +26,22 @@
       </ul>
     </div>
     <div class="right-nav">
-
+      <span>
+        <svg class="icon">
+          <use xlink:href="/assets/img/ln-icons.svg#ico_notification"></use>
+        </svg>
+      </span>
+      <span>
+        <svg class="icon">
+          <use xlink:href="/assets/img/ln-icons.svg#ico_user"></use>
+        </svg>
+        <span>John Smith</span>
+      </span>
+      <span>
+        <svg class="icon down-arrow">
+          <use xlink:href="/assets/img/ln-icons.svg#ico_downarrow"></use>
+        </svg>
+      </span>
     </div>
   </div>
 </template>
@@ -45,6 +60,7 @@ export default {
     padding: 0px 20px;
     .ln-logo {
       width: 150px;
+      cursor: pointer;
     }
     .ln-links {
       ul {
@@ -55,6 +71,7 @@ export default {
           display: inline-flex;
           align-items: center;
           margin: 0 20px;
+          cursor: pointer;
           .icon {
             width: 21px;
             height: 21px;
@@ -71,6 +88,27 @@ export default {
             span {
               color: orange;
             }
+          }
+        }
+      }
+    }
+    .right-nav {
+      margin: 0 0 0 auto;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      span {
+        margin: 0 10px;
+        display: inline-flex;
+        align-items: center;
+        font-size: 15px;
+        cursor: pointer;
+        .icon {
+          width: 21px;
+          height: 21px;
+          &.down-arrow {
+            width: 12px;
+            height: 12px;
           }
         }
       }

@@ -74,6 +74,7 @@ export default {
   .table {
     width: 100%;
     .thead-light {
+      font-size: 14px;
       tr {
         th {
           background-color: #ffffff;
@@ -90,6 +91,8 @@ export default {
       }
     }
     tbody {
+      font-size: 14px;
+      color: #6d6d6d;
       tr {
         &:nth-of-type(even) {
           background-color: rgba(0, 0, 0, 0.02);
