@@ -25,6 +25,41 @@ export default {
     height: 100vh;
     font-family: 'Roboto', sans-serif !important;
     background-color: #666666 !important;
+    input {
+      height: 45px !important;
+      border-radius: 2px !important;
+      &::placeholder {
+        font-size: 13px;
+        color: #6d6d6d;
+      }
+      &:focus {
+        outline: none !important;
+        box-shadow: none !important;
+        border-color: #e2e2e2 !important;
+      }
+    }
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none; 
+      margin: 0; 
+    }
+    .custom-control-input:checked ~ .custom-control-label::before {
+      border-color: #FFAF2A;
+      background-color: #FFAF2A;
+    }
+    .btn-secondary {
+      border-radius: 2px;
+      background-color: #FFAF2A;
+      border: 1px solid #FFAF2A;
+      outline: none;
+      box-shadow: none;
+      height: 45px;
+      &:focus {
+        outline: none;
+        box-shadow: none;
+        border-color: #e2e2e2 !important;
+      }
+    }
   }
   .h-100 {
     height: 100%;

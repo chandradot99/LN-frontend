@@ -54,7 +54,7 @@ export default {
           list-style: none;
           display: inline-flex;
           align-items: center;
-          margin: 0 10px;
+          margin: 0 20px;
           .icon {
             width: 21px;
             height: 21px;
