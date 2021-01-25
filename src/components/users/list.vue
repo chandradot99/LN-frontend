@@ -38,9 +38,14 @@
           </span>
         </template>
         <template #cell(actions)="row">
-          <svg class="icon" @click="editUser(row.item)">
-            <use xlink:href="/assets/img/ln-icons.svg#ico_edit"></use>
-          </svg>
+          <div class="actions">
+            <svg class="icon" @click="editUser(row.item)">
+              <use xlink:href="/assets/img/ln-icons.svg#ico_edit"></use>
+            </svg>
+            <svg class="icon" @click="deleteUser(row.item, row.index)">
+              <use xlink:href="/assets/img/ln-icons.svg#ico_delete"></use>
+            </svg>
+          </div>
         </template>
       </b-table>
     </div>
@@ -53,13 +58,15 @@ import UserService from '@/services/user.service'
 
 export default {
   props: {
+    users: {
+      type: Array
+    },
     roles: {
       type: Array
     }
   },
   data() {
     return {
-      users: [],
       fields: [
         { key: 'name', label: 'Name', sortable: true },
         { key: 'email', label: 'Email' },
@@ -76,9 +83,10 @@ export default {
     editUser (user) {
       this.$emit('edit-user', user)
     },
-    getUsers() {
-      UserService.read().then((users) => {
-        this.users = users
+    deleteUser (user, index) {
+      let config = { id: user.id }
+      UserService.delete(config).then(() => {
+        this.$emit('on-delete', index)
       })
     },
     getRoleName (roleId) {
@@ -87,9 +95,6 @@ export default {
       })
       return role ? _.lowerCase(role.name) : ''
     }
-  },
-  mounted () {
-    this.getUsers()
   }
 }
 </script>
@@ -174,6 +179,11 @@ export default {
       }
       .role-type {
         text-transform: capitalize;
+      }
+      .actions {
+        .icon {
+          margin: 0 5px;
+        }
       }
     }
   }

@@ -3,7 +3,7 @@
     <svg class="icon-close" @click="close">
       <use xlink:href="/assets/img/ln-icons.svg#ico_close"></use>
     </svg>
-    <h4>Add User</h4>
+    <h4>{{ mode === 'add' ? 'Add' : 'Edit' }} User</h4>
     <b-form>
       <b-form-group>
         <b-input v-model="user.name" placeholder="Name"></b-input>
@@ -57,12 +57,16 @@ export default {
       this.$refs.userModalRef.hide()
     },
     createUser () {
-      UserService.create(this.user).then(() => {
+      UserService.create(this.user).then((user) => {
+        this.$emit('user-created', user)
+        this.$refs.userModalRef.hide()
       })
     },
     updateUser () {
       let config = { id: this.user.id }
-      UserService.update(config, this.user).then(() => {
+      UserService.update(config, this.user).then((user) => {
+        this.$emit('user-updated', user)
+        this.$refs.userModalRef.hide()
       })
     }
   }

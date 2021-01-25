@@ -1,14 +1,16 @@
 <template>
   <div class="h-100">
-    <user-list @add-user="addUser" @edit-user="editUser" :roles="roles"></user-list>
-    <user-modal ref="userModal" :roles="roles"></user-modal>
+    <user-list @add-user="addUser" @edit-user="editUser" @on-delete="deleteUserFromList" :users="users" :roles="roles"></user-list>
+    <user-modal ref="userModal" @user-created="appendUserToList" @user-updated="updateUserInList" :roles="roles"></user-modal>
   </div>
 </template>
 
 <script>
+import _ from 'lodash'
 import UserList from './list'
 import UserModal from './userModal'
 import RoleService from '@/services/role.service'
+import UserService from '@/services/user.service'
 
 export default {
   components: {
@@ -17,7 +19,8 @@ export default {
   },
   data () {
     return {
-      roles: []
+      roles: [],
+      users: []
     }
   },
   methods: {
@@ -37,9 +40,30 @@ export default {
       RoleService.read().then((roles) => {
         this.roles = roles
       })
+    },
+    loadUsers() {
+      UserService.read().then((users) => {
+        this.users = users
+      })
+    },
+    appendUserToList(user) {
+      this.users = _.concat(this.users, user)
+    },
+
+    updateUserInList (user) {
+      let index = _.findIndex(this.users, (u) => {
+        return u.id == user.id
+      })
+
+      this.$set(this.users, index, user)
+    },
+    deleteUserFromList(index) {
+      this.users.splice(index, 1)
+      return this.users
     }
   },
   mounted () {
+    this.loadUsers()
     this.loadRoles()
   }
 }
