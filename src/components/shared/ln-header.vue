@@ -63,7 +63,10 @@ export default {
       cursor: pointer;
     }
     .ln-links {
+      height: 60px;
+      display: flex;
       ul {
+        display: flex;
         padding-left: 0;
         margin-bottom: 0;
         li {
@@ -93,12 +96,13 @@ export default {
       }
     }
     .right-nav {
+      height: 60px;
       margin: 0 0 0 auto;
       color: #ffffff;
       display: flex;
       align-items: center;
       span {
-        margin: 0 10px;
+        margin: 0 15px;
         display: inline-flex;
         align-items: center;
         font-size: 15px;

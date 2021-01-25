@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Users from './../components/users'
+import Users from '@/components/users'
 
 Vue.use(Router)
 

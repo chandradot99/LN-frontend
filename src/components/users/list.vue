@@ -25,12 +25,17 @@
       </div>
     </div>
     <div class="list-section">
-      <b-table sticky-header :items="items" :fields="fields" head-variant="light">
+      <b-table sticky-header :items="users" :fields="fields" head-variant="light">
         <template #cell(status)="row">
           <div class="status">
             <span class="status-icon" :class="row.item.status"></span>
             <span>{{row.item.status}}</span>
           </div>
+        </template>
+        <template #cell(role_id)="row">
+          <span class="role-type">
+            {{getRoleName(row.item.role_id)}}
+          </span>
         </template>
         <template #cell(actions)="row">
           <svg class="icon" @click="editUser(row.item)">
@@ -43,74 +48,22 @@
 </template>
 
 <script>
+import _ from 'lodash'
+import UserService from '@/services/user.service'
+
 export default {
+  props: {
+    roles: {
+      type: Array
+    }
+  },
   data() {
     return {
-      items: [
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'pending' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'inactive' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'active' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'pending' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'pending' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'pending' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'pending' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'pending' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'pending' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'pending' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'pending' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'pending' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'pending' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'pending' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'pending' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'pending' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'pending' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'pending' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'pending' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'pending' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'pending' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'pending' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'pending' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'pending' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'inactive' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'inactive' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'inactive' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'inactive' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'inactive' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'inactive' },
-        { name: 'Adina Alber', email: 'adinaalber@locusnine.com', role: 'Admin', status: 'inactive' }
-      ],
+      users: [],
       fields: [
         { key: 'name', label: 'Name', sortable: true },
         { key: 'email', label: 'Email' },
-        { key: 'role', label: 'Role Type' },
+        { key: 'role_id', label: 'Role Type' },
         { key: 'status', label: 'Status' },
         { key: 'actions', label: '' }
       ]
@@ -119,7 +72,24 @@ export default {
   methods: {
     addUser() {
       this.$emit('add-user')
+    },
+    editUser (user) {
+      this.$emit('edit-user', user)
+    },
+    getUsers() {
+      UserService.read().then((users) => {
+        this.users = users
+      })
+    },
+    getRoleName (roleId) {
+      let role = _.find(this.roles, (role) => {
+        return role.id === roleId
+      })
+      return role ? _.lowerCase(role.name) : ''
     }
+  },
+  mounted () {
+    this.getUsers()
   }
 }
 </script>
@@ -201,6 +171,9 @@ export default {
             background-color: #DC143C;
           }
         }
+      }
+      .role-type {
+        text-transform: capitalize;
       }
     }
   }

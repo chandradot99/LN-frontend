@@ -67,12 +67,13 @@ export default {
   .ln-content {
     height: calc(100% - 60px);
     padding: 30px;
-    max-width: 1200px;
+    // max-width: 1200px;
     background-color: #666666;
     margin: 0 auto;
   }
   .table {
     width: 100%;
+    overflow: auto;
     .thead-light {
       font-size: 14px;
       tr {
@@ -115,4 +116,3 @@ export default {
     max-height: 100% !important;
   }
 </style>
-
