@@ -5,6 +5,10 @@ const ApiService = {
     axios.defaults.baseURL = baseURL
   },
 
+  setTokenHeader (token) {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+  },
+
   get (resource, data) {
     return axios.get(resource, data)
   },
@@ -19,6 +23,21 @@ const ApiService = {
 
   delete (resource) {
     return axios.delete(resource)
+  },
+
+  /**
+   * Perform a custom Axios request.
+   *
+   * data is an object containing the following properties:
+   *  - method
+   *  - url
+   *  - data ... request payload
+   *  - auth (optional)
+   *    - username
+   *    - password
+  **/
+  customRequest (data) {
+    return axios(data)
   }
 }
 

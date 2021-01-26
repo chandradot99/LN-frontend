@@ -1,20 +1,13 @@
 <template>
   <div class="h-100">
     <vue-progress-bar></vue-progress-bar>
-    <ln-header></ln-header>
-    <div class="ln-content">
-      <router-view></router-view>
-    </div>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import LNHeader from './components/shared/ln-header'
 
 export default {
-  components: {
-    'ln-header': LNHeader
-  }
 }
 </script>
 
@@ -25,7 +18,6 @@ export default {
     margin: 0;
     height: 100vh;
     font-family: 'Roboto', sans-serif !important;
-    background-color: #666666 !important;
     input {
       height: 45px !important;
       border-radius: 2px !important;
@@ -64,13 +56,6 @@ export default {
   }
   .h-100 {
     height: 100%;
-  }
-  .ln-content {
-    height: calc(100% - 60px);
-    padding: 30px;
-    // max-width: 1200px;
-    background-color: #666666;
-    margin: 0 auto;
   }
   .table {
     width: 100%;
