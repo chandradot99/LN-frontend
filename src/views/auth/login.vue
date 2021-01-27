@@ -8,11 +8,14 @@
       </div>
       <h2>Sign In</h2>
       <b-form>
-        <b-form-group label="Email">
+        <b-form-group label="Email" :class="{ 'form-group--error': $v.user.email.$error }">
           <b-input v-model="user.email" type="email" placeholder="Email"></b-input>
+          <div class="error" v-if="$v.user.email.$error && !$v.user.email.required">Email is required</div>
+          <div class="error" v-if="user.email && $v.user.email.$error && !$v.user.email.validEmail">Email is not valid</div>
         </b-form-group>
-        <b-form-group label="Password">
+        <b-form-group label="Password" :class="{ 'form-group--error': $v.user.password.$error }">
           <b-input v-model="user.password" type="password" placeholder="Password"></b-input>
+          <div class="error" v-if="$v.user.password.$error && !$v.user.password.required">Password is required</div>
         </b-form-group>
         <b-form-group>
           <b-button @click="signin">Sign In</b-button>
@@ -29,6 +32,12 @@
 <script>
 import APIService from '@/services/api.service.js'
 import AuthService from '@/services/auth.service.js'
+import { required } from 'vuelidate/lib/validators'
+
+const validEmail = (email) => {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
 
 export default {
   data () {
@@ -39,16 +48,33 @@ export default {
       }
     }
   },
+  validations: {
+    user: {
+      email: {
+        required,
+        validEmail
+      },
+      password: {
+        required
+      }
+    }
+  },
   methods: {
     signin () {
-      AuthService.login(this.user).then((data) => {
-        localStorage.setItem('auth_token', data.auth_token)
-        localStorage.setItem('loggedInUser', JSON.stringify(data.user))
+      this.$v.$touch()
+      
+      if (!this.$v.$invalid) {
+        this.$Progress.start()
+        AuthService.login(this.user).then((data) => {
+          this.$Progress.finish()
+          localStorage.setItem('auth_token', data.auth_token)
+          localStorage.setItem('loggedInUser', JSON.stringify(data.user))
 
-        APIService.setTokenHeader(data.auth_token)
+          APIService.setTokenHeader(data.auth_token)
 
-        this.$router.push('/users')
-      })
+          this.$router.push('/users')
+        }) 
+      }
     }
   }
 }
@@ -81,7 +107,7 @@ export default {
         }
       }
       .ln-logo {
-        background: linear-gradient(180deg,#7ccc91,#40b4c1 131.11%);
+        background-color: #3576ab;
         position: absolute;
         top: 20px;
         left: 20px;

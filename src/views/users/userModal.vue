@@ -5,20 +5,26 @@
     </svg>
     <h4>{{ mode === 'add' ? 'Add' : 'Edit' }} User</h4>
     <b-form>
-      <b-form-group>
+      <b-form-group :class="{ 'form-group--error': $v.user.name.$error }">
         <b-input v-model="user.name" placeholder="Name"></b-input>
+        <div class="error" v-if="$v.user.name.$error && !$v.user.name.required">Name is required</div>
       </b-form-group>
-      <b-form-group>
+      <b-form-group :class="{ 'form-group--error': $v.user.email.$error }">
         <b-input v-model="user.email" placeholder="Email"></b-input>
+        <div class="error" v-if="$v.user.email.$error && !$v.user.email.required">Email is required</div>
+        <div class="error" v-if="user.email && $v.user.email.$error && !$v.user.email.validEmail">Email is not valid</div>
       </b-form-group>
-      <b-form-group class="role-type-wrap">
-        <b-form-radio-group
-          v-model="user.role_id"
-          :options="roles"
-          name="user-roles"
-          value-field="id"
-          text-field="name"
-        ></b-form-radio-group>
+      <b-form-group :class="{ 'form-group--error': $v.user.role_id.$error }">
+        <div class="role-type-wrap">
+          <b-form-radio-group
+            v-model="user.role_id"
+            :options="roles"
+            name="user-roles"
+            value-field="id"
+            text-field="name"
+          ></b-form-radio-group>
+        </div>
+        <div class="error" v-if="$v.user.role_id.$error && !$v.user.role_id.required">Please select role</div>
       </b-form-group>
       <b-form-group class="mobile-number-wrap">
         <b-input v-model="user.mobile_number" placeholder="Mobile Number (Optional)" type="number"></b-input>
@@ -33,7 +39,13 @@
 
 <script>
 import _ from 'lodash'
+import { required } from 'vuelidate/lib/validators'
 import UserService from '@/services/user.service'
+
+const validEmail = (email) => {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
 
 export default {
   props: {
@@ -47,6 +59,20 @@ export default {
       mode: 'add'
     }
   },
+  validations: {
+    user: {
+      name: {
+        required
+      },
+      email: {
+        required,
+        validEmail
+      },
+      role_id: {
+        required
+      }
+    }
+  },
   methods: {
     open (userData, mode) {
       this.user = _.merge({}, userData)
@@ -57,13 +83,16 @@ export default {
       this.$refs.userModalRef.hide()
     },
     createUser () {
-      this.$Progress.start()
-      UserService.create(this.user).then((user) => {
-        this.$emit('user-created', user)
-        this.$refs.userModalRef.hide()
+      this.$v.$touch()
+      if (!this.$v.$invalid) {
+        this.$Progress.start()
+        UserService.create(this.user).then((user) => {
+          this.$emit('user-created', user)
+          this.$refs.userModalRef.hide()
 
-        this.$Progress.finish()
-      })
+          this.$Progress.finish()
+        })
+      }
     },
     updateUser () {
       this.$Progress.start()
@@ -108,6 +137,7 @@ export default {
             display: flex;
             justify-content: space-between;
             color: #6d6d6d;
+            text-transform: capitalize;
           }
         }
         .form-group {

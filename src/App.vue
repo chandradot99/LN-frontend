@@ -20,7 +20,7 @@ export default {
     font-family: 'Roboto', sans-serif !important;
     input {
       height: 45px !important;
-      border-radius: 2px !important;
+      border-radius: 4px !important;
       &::placeholder {
         font-size: 13px;
         color: #6d6d6d;
@@ -41,7 +41,7 @@ export default {
       background-color: #FFAF2A;
     }
     .btn-secondary {
-      border-radius: 2px;
+      border-radius: 4px;
       background-color: #FFAF2A;
       border: 1px solid #FFAF2A;
       outline: none;
@@ -100,5 +100,19 @@ export default {
   }
   .b-table-sticky-header {
     max-height: 100% !important;
+  }
+  .form-group--error {
+    input {
+      border-color: #f79483;
+      &::placeholder {
+        color: #f57f6c;
+      }
+    }
+    .error {
+      color: #f57f6c;
+      font-size: 13px;
+      padding-top: 4px;
+      padding-left: 4px;
+    }
   }
 </style>

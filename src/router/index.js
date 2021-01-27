@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import AuthRequired from '@/utils/AuthRequired'
 
 import Home from '@/views/home'
 import Users from '@/views/users'
@@ -11,9 +12,10 @@ Vue.use(Router)
 const routes = [
   {
     path: '/',
-    name: Home,
+    name: 'home',
     component: Home,
     redirect: '/users',
+    beforeEnter: AuthRequired,
     children: [
       {
         path: 'users',
@@ -24,12 +26,12 @@ const routes = [
   },
   {
     path: '/login',
-    name: Login,
+    name: 'login',
     component: Login
   },
   {
     path: '/signup',
-    name: Signup,
+    name: 'signup',
     component: Signup
   }
 ]

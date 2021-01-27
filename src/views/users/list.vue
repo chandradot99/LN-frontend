@@ -42,7 +42,7 @@
             <svg class="icon" @click="editUser(row.item)">
               <use xlink:href="/assets/img/ln-icons.svg#ico_edit"></use>
             </svg>
-            <svg class="icon" @click="deleteUser(row.item, row.index)">
+            <svg class="icon" v-if="loggedInUser.id != row.item.id" @click="deleteUser(row.item, row.index)">
               <use xlink:href="/assets/img/ln-icons.svg#ico_delete"></use>
             </svg>
           </div>
@@ -76,6 +76,7 @@ export default {
   },
   data() {
     return {
+      loggedInUser: {},
       fields: [
         { key: 'name', label: 'Name', sortable: true },
         { key: 'email', label: 'Email' },
@@ -107,6 +108,10 @@ export default {
       })
       return role ? _.lowerCase(role.name) : ''
     }
+  },
+  mounted () {
+    let user = localStorage.getItem('loggedInUser')
+    this.loggedInUser = _.merge({}, JSON.parse(user))
   }
 }
 </script>

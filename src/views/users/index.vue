@@ -39,7 +39,12 @@ export default {
     },
     loadRoles () {
       RoleService.read().then((roles) => {
-        this.roles = roles
+        this.roles = _.map(roles, (role) => {
+          return {
+            id: role.id,
+            name: _.lowerCase(role.name)
+          }
+        })
       })
     },
     loadUsers() {
