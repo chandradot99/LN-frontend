@@ -12,6 +12,7 @@ const AuthService = {
       const response = await ApiService.customRequest(requestData)
       return response.data
     } catch (error) {
+      return error.response.data
     }
   },
   login: async function (payload) {
@@ -25,6 +26,7 @@ const AuthService = {
       const response = await ApiService.customRequest(requestData)
       return response.data
     } catch (error) {
+      return error.response.data
     }
   }
 }

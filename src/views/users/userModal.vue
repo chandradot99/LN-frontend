@@ -10,7 +10,7 @@
         <div class="error" v-if="$v.user.name.$error && !$v.user.name.required">Name is required</div>
       </b-form-group>
       <b-form-group :class="{ 'form-group--error': $v.user.email.$error }">
-        <b-input v-model="user.email" placeholder="Email"></b-input>
+        <b-input v-model="user.email" placeholder="Email" :disabled="mode === 'edit'"></b-input>
         <div class="error" v-if="$v.user.email.$error && !$v.user.email.required">Email is required</div>
         <div class="error" v-if="user.email && $v.user.email.$error && !$v.user.email.validEmail">Email is not valid</div>
       </b-form-group>
@@ -87,10 +87,18 @@ export default {
       if (!this.$v.$invalid) {
         this.$Progress.start()
         UserService.create(this.user).then((user) => {
-          this.$emit('user-created', user)
+          this.$Progress.finish()
           this.$refs.userModalRef.hide()
 
-          this.$Progress.finish()
+          if (user.message) {
+            this.$bvToast.toast(user.message.split('Key')[1], {
+              title: 'Error',
+              variant: 'danger',
+              autoHideDelay: 5000
+            })
+          } else {
+            this.$emit('user-created', user)
+          }
         })
       }
     },

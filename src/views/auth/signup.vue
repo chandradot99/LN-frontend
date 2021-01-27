@@ -86,12 +86,20 @@ export default {
         AuthService.signup(this.user).then((data) => {
           this.$Progress.finish()
 
-          localStorage.setItem('auth_token', data.auth_token)
-          localStorage.setItem('loggedInUser', JSON.stringify(data.user))
+          if (data.message) {
+            this.$bvToast.toast(data.message.split('Key')[1], {
+              title: 'Error',
+              variant: 'danger',
+              autoHideDelay: 5000
+            })
+          } else {
+            localStorage.setItem('auth_token', data.auth_token)
+            localStorage.setItem('loggedInUser', JSON.stringify(data.user))
 
-          APIService.setTokenHeader(data.auth_token)
+            APIService.setTokenHeader(data.auth_token)
 
-          this.$router.push('/users')
+            this.$router.push('/users')
+          }
         })
       }
     }
@@ -119,6 +127,8 @@ export default {
       position: relative;
       form {
         width: 450px;
+        background-color: white;
+        z-index: 99;
         .btn {
           width: 100%;
           background-color: #3576ab;

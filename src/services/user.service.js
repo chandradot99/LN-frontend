@@ -9,7 +9,7 @@ const UserService = {
 
       return response.data
     } catch (error) {
-      return error.data
+      return error.response.data
     }
   },
   read: async function () {
@@ -27,7 +27,7 @@ const UserService = {
 
       return response.data
     } catch (error) {
-      return error.data
+      return error.response.data
     }
   },
   delete: async function (config) {

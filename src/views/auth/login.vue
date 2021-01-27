@@ -66,12 +66,21 @@ export default {
         this.$Progress.start()
         AuthService.login(this.user).then((data) => {
           this.$Progress.finish()
-          localStorage.setItem('auth_token', data.auth_token)
-          localStorage.setItem('loggedInUser', JSON.stringify(data.user))
 
-          APIService.setTokenHeader(data.auth_token)
+          if (data.error) {
+            this.$bvToast.toast(data.error.user_authentication, {
+              title: 'Error',
+              variant: 'danger',
+              autoHideDelay: 5000
+            })
+          } else {
+            localStorage.setItem('auth_token', data.auth_token)
+            localStorage.setItem('loggedInUser', JSON.stringify(data.user))
 
-          this.$router.push('/users')
+            APIService.setTokenHeader(data.auth_token)
+
+            this.$router.push('/users')
+          }
         }) 
       }
     }
@@ -99,6 +108,8 @@ export default {
       position: relative;
       form {
         width: 450px;
+        background-color: white;
+        z-index: 99;
         .btn {
           width: 100%;
           background-color: #3576ab;
