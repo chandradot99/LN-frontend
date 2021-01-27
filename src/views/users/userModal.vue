@@ -87,6 +87,7 @@ export default {
       if (!this.$v.$invalid) {
         this.$Progress.start()
         UserService.create(this.user).then((user) => {
+          this.$v.$reset();
           this.$Progress.finish()
           this.$refs.userModalRef.hide()
 
